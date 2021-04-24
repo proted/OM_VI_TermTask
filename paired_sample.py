@@ -3,7 +3,7 @@ from typing import Callable
 
 
 def boltzmann_step(k: int):
-    return 1 / np.log(2 + k)
+    return 1 / np.log(1 + k)
 
 
 def hyperbolic_step(k: int):
@@ -16,7 +16,7 @@ def constant_step(k: int):
 
 def paired_sample_method(function: Callable, dim: int, work_step: Callable, test_step: Callable, iteration_count: int):
     x = np.random.normal(0, 100, dim)
-    for i in range(iteration_count):
+    for i in range(1, iteration_count):
         direction = np.random.uniform(-1, 1, dim)
         direction /= np.linalg.norm(direction, 2)
         t_step = test_step(i)
