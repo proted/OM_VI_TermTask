@@ -11,7 +11,7 @@ def euclidean_norm(vec: list):
 def generate_random_vector(n: int):
     random_vector = list()
     for i in range(0, n):
-        random_vector.append(np.random.rand())
+        random_vector.append(np.random.standard_normal())
     norm = euclidean_norm(random_vector)
     for i in range(0, n):
         random_vector[i] = random_vector[i] / norm
