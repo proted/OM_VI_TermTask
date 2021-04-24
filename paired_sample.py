@@ -3,7 +3,7 @@ from typing import Callable
 
 
 def boltzmann_step(k: int):
-    return 1 / np.log(1 + k)
+    return 1 / np.log(2 + k)
 
 
 def hyperbolic_step(k: int):
