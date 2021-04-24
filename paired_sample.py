@@ -1,12 +1,12 @@
 import numpy as np
-import miscellaneous as misc
+from typing import Callable
 
-def paired_sample_method(function, initial_value: list, step_count: int):
-    dim = len(initial_value)
-    width_space = 1.0
-    current_value = initial_value.copy()
-    for i in range(0, step_count):
-        random_vector = misc.generate_random_vector(dim)
-        first = misc.vector_add(current_value, misc.vector_mul(random_vector, width_space))
-        second = misc.vector_add(current_value, misc.vector_mul(random_vector, -width_space))
+
+def paired_sample_method(function: Callable, dim: int, work_step: Callable, test_step: Callable, iteration_count: int):
+    x = np.random.normal(0, 100, dim)
+    for i in range(iteration_count):
+        direction = np.random.uniform(-1, 1, dim)
+        x = x + work_step(i) * direction * np.sign(
+            function(x - test_step(i) * direction) - function(x + test_step(i) * direction))
+    return x
         
