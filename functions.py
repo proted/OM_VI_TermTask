@@ -12,7 +12,13 @@ def function1(vec: np.ndarray):
 
 
 def function2(vec: np.ndarray):
-    pass
+    coords_sum = 0
+    for i in range(0, len(vec)):
+        coords_sum += vec[i] ** 2
+    nominator = np.sin(coords_sum - np.pi / 2)
+    denominator = 1 + coords_sum
+    function_value = nominator / denominator
+    return function_value
 
 
 def function3(vec: np.ndarray):
