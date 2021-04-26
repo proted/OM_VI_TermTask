@@ -58,3 +58,14 @@ do_avg_dist_to_sln_against_iter_count_research()
 # bins=[7 + i*0.01 for i in range(0, 500)]
 # plt.hist(data, bins=50)
 # plt.show()
+
+# a = array.array('f', [1, 2, 3, 4])
+# print(a)
+# with open("data.bin", "wb") as f:
+#     a.tofile(f)
+# f.close()
+# b = array.array('f')
+# with open("data.bin", "rb") as f:
+#     b.fromfile(f, 4)
+# f.close()
+# print(b)
