@@ -3,6 +3,40 @@ from paired_sample import *
 from functions import *
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
+
+# чтобы можно было вращать нудно использовать некоторый бэкенд например:
+# import matplotlib
+# matplotlib.use('WebAgg')
+
+def plot_descent(x_min, x_max, y_min, y_max, step, func, descent_x, descent_y, descent_z):
+    """""
+    dim = 2
+    iterations = 30
+    func = function4
+    XY = np.ndarray((iterations, dim))
+    init = np.array([-1, -1])
+    paired_sample_method(func, dim, init, 0.25, 0.25, boltzmann_step, boltzmann_step, iterations, XY)
+    X1 = XY[:, 0]
+    Y1 = XY[:, 1]
+    Z1 = X1.copy()
+    for i in range(len(X1)):
+        Z1[i] = func(np.array([X1[i], Y1[i]]))
+    plot_descent(-2, 2, -2, 2, 0.01, function4, X1, Y1, Z1)
+    """""
+    X = np.arange(x_min, x_max, step)
+    Y = np.arange(y_min, y_max, step)
+    Z = np.ndarray((len(X), len(Y)))
+    for i in range(len(X)):
+        for j in range(len(Y)):
+            Z[i][j] = func(np.array([X[i], Y[j]]))
+    X, Y = np.meshgrid(X, Y)
+    fig = plt.figure(figsize=(15, 15), dpi=120)
+    ax = fig.add_subplot(projection='3d')
+    ax.plot(descent_x, descent_y, descent_z, color='black', linewidth=4)
+    surf = ax.contour(X, Y, Z, 35, cmap=cm.coolwarm, antialiased=False)
+    fig.colorbar(surf, shrink=0.5, aspect=5)
+    plt.show()
 
 
 def hist_mean(data: np.ndarray):
