@@ -3,7 +3,7 @@ from paired_sample import *
 from functions import *
 import numpy as np
 import matplotlib.pyplot as plt
-from descent_plot import plot_descent
+from descent_plot import plot_descent_paired_sample
 
 
 def hist_mean(data: np.ndarray):
@@ -49,7 +49,7 @@ def do_avg_dist_to_sln_against_iter_count_research():
 
 if __name__ == '__main__':
     dim = 2
-    iterations = 7
+    iterations = 10
     func = function1
     xy = np.ndarray((iterations, dim))
     xy_test = np.ndarray((iterations, 2, dim))
@@ -64,7 +64,7 @@ if __name__ == '__main__':
         f = True
         if i == iterations - 1:
             f = False
-        plot_descent(-3, 0, -2, 0.5, 0.01, func, x[:i+1], y[:i+1], z[:i+1], xy_test[i][0], xy_test[i][1], 35, f)
+        plot_descent_paired_sample(-3, 0, -2, 0.5, 0.01, func, x[:i + 1], y[:i + 1], z[:i + 1], xy_test[i][0], xy_test[i][1], 35, f)
 
 
 # data = list()
