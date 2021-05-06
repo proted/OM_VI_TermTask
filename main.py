@@ -3,40 +3,7 @@ from paired_sample import *
 from functions import *
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
-
-# чтобы можно было вращать нудно использовать некоторый бэкенд например:
-# import matplotlib
-# matplotlib.use('WebAgg')
-
-def plot_descent(x_min, x_max, y_min, y_max, step, func, descent_x, descent_y, descent_z):
-    """""
-    dim = 2
-    iterations = 30
-    func = function4
-    XY = np.ndarray((iterations, dim))
-    init = np.array([-1, -1])
-    paired_sample_method(func, dim, init, 0.25, 0.25, boltzmann_step, boltzmann_step, iterations, XY)
-    X1 = XY[:, 0]
-    Y1 = XY[:, 1]
-    Z1 = X1.copy()
-    for i in range(len(X1)):
-        Z1[i] = func(np.array([X1[i], Y1[i]]))
-    plot_descent(-2, 2, -2, 2, 0.01, function4, X1, Y1, Z1)
-    """""
-    X = np.arange(x_min, x_max, step)
-    Y = np.arange(y_min, y_max, step)
-    Z = np.ndarray((len(X), len(Y)))
-    for i in range(len(X)):
-        for j in range(len(Y)):
-            Z[i][j] = func(np.array([X[i], Y[j]]))
-    X, Y = np.meshgrid(X, Y)
-    fig = plt.figure(figsize=(15, 15), dpi=120)
-    ax = fig.add_subplot(projection='3d')
-    ax.plot(descent_x, descent_y, descent_z, color='black', linewidth=4)
-    surf = ax.contour(X, Y, Z, 35, cmap=cm.coolwarm, antialiased=False)
-    fig.colorbar(surf, shrink=0.5, aspect=5)
-    plt.show()
+from descent_plot import plot_descent
 
 
 def hist_mean(data: np.ndarray):
@@ -80,7 +47,25 @@ def do_avg_dist_to_sln_against_iter_count_research():
     plt.show()
 
 
-do_avg_dist_to_sln_against_iter_count_research()
+if __name__ == '__main__':
+    dim = 2
+    iterations = 7
+    func = function1
+    xy = np.ndarray((iterations, dim))
+    xy_test = np.ndarray((iterations, 2, dim))
+    init = np.array([-1.7, -0.6])
+    paired_sample_method(func, dim, init, 0.25, 0.25, boltzmann_step, boltzmann_step, iterations, xy, xy_test)
+    x = xy[:, 0]
+    y = xy[:, 1]
+    z = x.copy()
+    for i in range(len(x)):
+        z[i] = func(np.array([x[i], y[i]]))
+    for i in range(iterations):
+        f = True
+        if i == iterations - 1:
+            f = False
+        plot_descent(-3, 0, -2, 0.5, 0.01, func, x[:i+1], y[:i+1], z[:i+1], xy_test[i][0], xy_test[i][1], 35, f)
+
 
 # data = list()
 # exact_solution = np.array([1, 1, 1, 1, 1])

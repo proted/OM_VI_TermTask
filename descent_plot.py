@@ -3,26 +3,6 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 
 
-# if __name__ == '__main__':
-#     dim = 2
-#     iterations = 7
-#     func = function1
-#     xy = np.ndarray((iterations, dim))
-#     xy_test = np.ndarray((iterations, 2, dim))
-#     init = np.array([-1.7, -0.6])
-#     paired_sample_method(func, dim, init, 0.25, 0.25, boltzmann_step, boltzmann_step, iterations, xy, xy_test)
-#     x = xy[:, 0]
-#     y = xy[:, 1]
-#     z = x.copy()
-#     for i in range(len(x)):
-#         z[i] = func(np.array([x[i], y[i]]))
-#     for i in range(iterations):
-#         f = True
-#         if i == iterations - 1:
-#             f = False
-#         plot_descent(-3, 0, -2, 0.5, 0.01, func, x[:i+1], y[:i+1], z[:i+1], xy_test[i][0], xy_test[i][1], 35, f)
-
-
 def plot_descent(x_min, x_max, y_min, y_max, step, func, descent_x, descent_y, descent_z, test1, test2, contours, flag):
     x = np.arange(x_min, x_max, step)
     y = np.arange(y_min, y_max, step)
