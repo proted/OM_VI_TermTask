@@ -1,9 +1,13 @@
+import os
+
 from simulated_annealing import boltzmann_annealing
 from paired_sample import *
 from functions import *
 import numpy as np
 import matplotlib.pyplot as plt
-from descent_plot import plot_descent_paired_sample
+import glob
+import moviepy.editor as mpy
+from descent_plot import plot_descent_paired_sample, plot_descent_boltzmann_annealing
 
 
 def hist_mean(data: np.ndarray):
@@ -52,9 +56,10 @@ if __name__ == '__main__':
     iterations = 10
     func = function1
     xy = np.ndarray((iterations, dim))
-    xy_test = np.ndarray((iterations, 2, dim))
+    xy_test = np.ndarray((iterations, dim))
+    temp = np.ndarray((iterations,))
     init = np.array([-1.7, -0.6])
-    paired_sample_method(func, dim, init, 0.25, 0.25, boltzmann_step, boltzmann_step, iterations, xy, xy_test)
+    boltzmann_annealing(2, func, 0.5, iterations, init, xy, temp, xy_test)
     x = xy[:, 0]
     y = xy[:, 1]
     z = x.copy()
@@ -64,8 +69,37 @@ if __name__ == '__main__':
         f = True
         if i == iterations - 1:
             f = False
-        plot_descent_paired_sample(-3, 0, -2, 0.5, 0.01, func, x[:i + 1], y[:i + 1], z[:i + 1], xy_test[i][0], xy_test[i][1], 35, f)
+        plot_descent_boltzmann_annealing(-3, 0.5, -2, 0.5, 0.01, func, x[:i + 1], y[:i + 1], z[:i + 1], xy_test[i],
+                                         temp[i], 35, f)
+    gif_name = 'b'
+    fps = 0.33
+    file_list = sorted(glob.glob('../../Documents/MetOpt/termtask/showcase_boltzmann/*'), key=os.path.getmtime)
+    clip = mpy.ImageSequenceClip(file_list, fps=fps)
+    clip.write_gif('../../Documents/MetOpt/termtask/{}.gif'.format(gif_name), fps=fps)
 
+# dim = 2
+# iterations = 10
+# func = function1
+# xy = np.ndarray((iterations, dim))
+# xy_test = np.ndarray((iterations, 2, dim))
+# init = np.array([-1.7, -0.6])
+# paired_sample_method(func, dim, init, 0.25, 0.25, boltzmann_step, boltzmann_step, iterations, xy, xy_test)
+# x = xy[:, 0]
+# y = xy[:, 1]
+# z = x.copy()
+# for i in range(len(x)):
+#     z[i] = func(np.array([x[i], y[i]]))
+# for i in range(iterations):
+#     f = True
+#     if i == iterations - 1:
+#         f = False
+#     plot_descent_paired_sample(-3, 0.5, -2, 0.5, 0.01, func, x[:i + 1], y[:i + 1], z[:i + 1], xy_test[i][0],
+#                                xy_test[i][1], 35, f)
+# gif_name = 'ps'
+# fps = 0.33
+# file_list = sorted(glob.glob('../../Documents/MetOpt/termtask/showcase_pair_samples/*'), key=os.path.getmtime)
+# clip = mpy.ImageSequenceClip(file_list, fps=fps)
+# clip.write_gif('../../Documents/MetOpt/termtask/{}.gif'.format(gif_name), fps=fps)
 
 # data = list()
 # exact_solution = np.array([1, 1, 1, 1, 1])
@@ -88,6 +122,7 @@ if __name__ == '__main__':
 #     b.fromfile(f, 4)
 # f.close()
 # print(b)
+
 
 # def do_avg_dist_to_sln_against_iter_count_research1():
 #     exact_solution_for_1_4 = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
